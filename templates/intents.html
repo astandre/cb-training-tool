@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Entrenamiento de intenciones{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Intenciones:</h2>
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="intent-options">
+                    </select>
+                    <button type="button" class="btn btn-primary" id="search-intent">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="results">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $("#search-intent").click(function () {
+                var data = {
+                    "intent": get_selected_intent().intent,
+                    {#"sentences": sentences#}
+                };
+
+                makeAjaxCall(URL + "intents/sentences", "POST", JSON.stringify(data)).then(function (respJson) {
+                        console.log(respJson);
+                        $("#results").empty();
+                        $("#oraciones").empty()
+                            .append('<div class="input-group mb-3">\n' +
+                                '                    <div class="input-group-prepend">\n' +
+                                '                        <button class="btn btn-outline-secondary " type="button" disabled>Oracion 1</button>\n' +
+                                '                    </div>\n' +
+                                '                    <input type="text" class="form-control sentence" placeholder="" aria-label=""\n' +
+                                '                           aria-describedby="basic-addon1">\n' +
+                                '                </div>');
+
+                        respJson["sentences"].forEach(function (item, index) {
+
+
+                            var result_text = "";
+                            item["sentence"].forEach(function (item2, index2) {
+                                if (item2.type === "text") {
+                                    result_text += item2.text;
+                                } else {
+                                    result_text += "<button type='button' class='btn btn-primary' >" + item2.text + "</button>";
+                                }
+                            });
+                            var entities;
+                            if (item["entities"].length > 0) {
+                                entities = "<ul>";
+                                item["entities"].forEach(function (item3, index2) {
+                                    entities += "<li>" + item3 + "</li>"
+                                });
+                                entities += "</ul>";
+                            } else {
+                                entities = "<h5>No se ha encontrado entidades</h5>";
+                            }
+                            var key_words;
+                            if (item["instances"].length > 0) {
+                                key_words = "<ul>";
+                                item["instances"].forEach(function (item4, index2) {
+                                    key_words += "<li>" + item4[0] + " - " + item4[1] + "</li>"
+                                });
+                                key_words += "</ul>";
+                            } else {
+                                key_words = "<h5>No se ha encontrado instancias de entidades</h5>";
+                            }
+                            d = document.createElement('div');
+                            $(d).addClass("result")
+                                .append(result_text)
+                                .append("<h3>Detalles</h3>")
+                                .append("<h4>Entidades</h4>")
+                                .append(entities)
+                                .append("<h4>Instancias</h4>")
+                                .append(instances)
+                                .append("<button type='button' class='btn btn-primary' onclick='edit_sentence(" + item.id + ")'>Aceptar</button>")
+                                .append("<hr>")
+                                .appendTo($("#results"));
+
+                        });
+
+                    },
+                    function (reason) {
+                        console.log("error in processing your request", reason);
+                    }
+                );
+            }
+        );
+
+    </script>
+{% endblock %}

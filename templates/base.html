@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}  </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+{% block main %}
+
+
+{% endblock %}
+
+<script type="text/javascript">
+    var csrftoken = Cookies.get('csrftoken');
+
+    function get_selected_intent() {
+        var e = document.getElementById("intent-options");
+        var strUser = e.options[e.selectedIndex].value;
+        var result;
+        intents.forEach(function (item, index) {
+            if (item.intent === strUser) {
+                result = item;
+            }
+        });
+        return result;
+    }
+
+    $(document).ready(function () {
+        console.log("ready!");
+        makeAjaxCall("{{ url_for('get_intents') }}", "GET").then(function (respJson) {
+                {#console.log("GET<<<");#}
+                {#console.log(respJson["options"]);#}
+                intents = respJson["options"];
+                respJson["options"].forEach(function (item, index) {
+                    {#console.log(item, index);#}
+                    $("#intent-options").append(`<option value=${item.intent}>${item.intent}</option>`);
+                });
+                $("#intent-options-help").append(respJson["options"][0]["description"])
+
+            },
+            function (reason) {
+                console.log("error in processing your request", reason);
+            }
+        );
+
+    });
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+
+    function makeAjaxCall(url, methodType, data, callback) {
+        return $.ajax({
+            url: url,
+            method: methodType,
+            dataType: "json",
+            contentType: 'application/json',
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            },
+            data: data,
+        });
+
+    }
+</script>
+</body>
+</html>
