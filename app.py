@@ -4,11 +4,15 @@ from flask import render_template, request
 from nlp_core import *
 import random
 import re
+from decouple import config
 
 # from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+if config('DEBUG'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL_DEV')
 # CORS(app)
 db = SQLAlchemy(app)
 
@@ -141,8 +145,11 @@ def extract_info():
             key_words_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasKeyword')
             key_words = []
             for aux in key_words_aux:
+                print(aux.object)
                 word = Triple.query.filter_by(subject=aux.object, predicate='hasWord').first()
+                print(word)
                 pos = Triple.query.filter_by(subject=aux.object, predicate='hasPOS').first()
+                print(pos)
                 key_words.append([word.object, pos.object, aux.object])
 
             result["sentences"].append(
@@ -164,8 +171,9 @@ def new_key_words():
             for option in request.json["options"]:
                 # print(option)
                 key_subject = request.json["intent"] + "-Keyword" + str(number)
-                db.session.add(Triple(subject=request.json["intent"], predicate='hasProposedKeyword', object=key_subject))
-                db.session.add(Triple(subject=key_subject, predicate='hasWord', object=option["word"]))
+                db.session.add(
+                    Triple(subject=request.json["intent"], predicate='hasProposedKeyword', object=key_subject))
+                db.session.add(Triple(subject=key_subject, predicate='hasWord', object=option["word"].lower()))
                 db.session.add(Triple(subject=key_subject, predicate='hasPOS', object=option["pos"]))
                 db.session.add(Triple(subject=key_subject, predicate='refersTo', object=option["subject"]))
                 number += 1
@@ -177,4 +185,4 @@ def new_key_words():
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.run()
+    app.run(debug=config('DEBUG'))

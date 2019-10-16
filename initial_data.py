@@ -25,6 +25,19 @@ db.session.add(Triple(subject='ObtenerInformacion', predicate='hasSentence', obj
 db.session.add(Triple(subject='ObtenerFechas', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerFechas', predicate='hasDescription',
                       object="Como preguntarias por las fechas importantes de un curso"))
+db.session.add(Triple(subject='ObtenerFechas', predicate='hasKeyword', object="ObtenerFechas-Keyword1"))
+db.session.add(Triple(subject='ObtenerFechas', predicate='hasKeyword', object="ObtenerFechas-Keyword2"))
+db.session.add(Triple(subject='ObtenerFechas', predicate='hasKeyword', object="ObtenerFechas-Keyword3"))
+db.session.add(Triple(subject='ObtenerFechas-Keyword1', predicate='hasWord', object="fechas"))
+db.session.add(Triple(subject='ObtenerFechas-Keyword1', predicate='hasPOS', object="NOUN"))
+db.session.add(Triple(subject='ObtenerFechas-Keyword2', predicate='hasWord', object="importantes"))
+db.session.add(Triple(subject='ObtenerFechas-Keyword2', predicate='hasPOS', object="ADJ"))
+db.session.add(Triple(subject='ObtenerFechas-Keyword3', predicate='hasWord', object="clave"))
+db.session.add(Triple(subject='ObtenerFechas-Keyword3', predicate='hasPOS', object="NOUN"))
+db.session.add(
+    Triple(subject='ObtenerFechas', predicate='hasSentence', object="Cuales son las fechas importantes del curso?"))
+db.session.add(Triple(subject='ObtenerFechas', predicate='hasSentence', object="Fechas clave del curso"))
+db.session.add(Triple(subject='ObtenerFechas', predicate='hasSentence', object="Que fechas debo tomar en cuenta"))
 
 # Obtener fechas de inicio
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='rdf:type', object="Intent"))
@@ -56,9 +69,12 @@ db.session.add(Triple(subject='ObtenerPrerequisitos-Keyword2', predicate='hasWor
 db.session.add(Triple(subject='ObtenerPrerequisitos-Keyword2', predicate='hasPOS', object="NOUN"))
 db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence', object="Cuáles son los prerequisitos?"))
 db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence', object="Requisitos previos de ingreso "))
-db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence', object="Dame a conocer los prerequisitos"))
-db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence',object="Me puedes indicar los prerequistos necesarios?"))
-db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence',object="Que necesito saber antes de iniciar el curso"))
+db.session.add(
+    Triple(subject='ObtenerPrerequisitos', predicate='hasSentence', object="Dame a conocer los prerequisitos"))
+db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence',
+                      object="Me puedes indicar los prerequistos necesarios?"))
+db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence',
+                      object="Que necesito saber antes de iniciar el curso"))
 
 # Intencion obtener duracion
 
@@ -80,7 +96,8 @@ db.session.add(Triple(subject='ObtenerDuracion-Keyword4', predicate='hasPOS', ob
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasSentence', object="Qué tiempo dura el curso ?"))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasSentence', object="Duración del curso "))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasSentence', object="Número de horas del mooc?"))
-db.session.add(Triple(subject='ObtenerDuracion', predicate='hasSentence', object="En cuántas semanas se realiza el curso? "))
+db.session.add(
+    Triple(subject='ObtenerDuracion', predicate='hasSentence', object="En cuántas semanas se realiza el curso? "))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasSentence', object="Cuanto dura el curso"))
 
 # Intencion Obtener Precio
@@ -98,8 +115,8 @@ db.session.add(Triple(subject='ObtenerPrecio-Keyword2', predicate='hasWord', obj
 db.session.add(Triple(subject='ObtenerPrecio-Keyword2', predicate='hasPOS', object="VERB"))
 db.session.add(Triple(subject='ObtenerPrecio-Keyword3', predicate='hasWord', object="costo"))
 db.session.add(Triple(subject='ObtenerPrecio-Keyword3', predicate='hasPOS', object="PROPN"))
-db.session.add(Triple(subject='ObtenerPrecio-Keyword3', predicate='hasWord', object="inversión"))
-db.session.add(Triple(subject='ObtenerPrecio-Keyword3', predicate='hasPOS', object="NOUN"))
+db.session.add(Triple(subject='ObtenerPrecio-Keyword4', predicate='hasWord', object="inversión"))
+db.session.add(Triple(subject='ObtenerPrecio-Keyword4', predicate='hasPOS', object="NOUN"))
 db.session.add(Triple(subject='ObtenerPrecio', predicate='hasSentence', object="Cuál es el precio?"))
 db.session.add(Triple(subject='ObtenerPrecio', predicate='hasSentence', object="Cuánto vale?"))
 db.session.add(Triple(subject='ObtenerPrecio', predicate='hasSentence', object="Valor del curso?"))
@@ -122,7 +139,8 @@ db.session.add(Triple(subject='ObtenerDocente-Keyword3', predicate='hasPOS', obj
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object="Quién es mi profesor en el curso?"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object="Docente del mooc?"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object="Qué docente imparte el mooc?"))
-db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object="Quién es el docente encargado de la materia?"))
+db.session.add(
+    Triple(subject='ObtenerDocente', predicate='hasSentence', object="Quién es el docente encargado de la materia?"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object="Nombre del docente del mooc"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object="Que profesor esta a cargo del curso"))
 
@@ -140,7 +158,9 @@ db.session.add(Triple(subject='ObtenerContenidos-Keyword2', predicate='hasPOS', 
 db.session.add(Triple(subject='ObtenerContenidos-Keyword3', predicate='hasWord', object="temas"))
 db.session.add(Triple(subject='ObtenerContenidos-Keyword3', predicate='hasPOS', object="NOUN"))
 db.session.add(Triple(subject='ObtenerContenidos', predicate='hasSentence', object="Contenido del curso "))
-db.session.add(Triple(subject='ObtenerContenidos', predicate='hasSentence', object="Cuál es la temática de cada curso?"))
-db.session.add(Triple(subject='ObtenerContenidos', predicate='hasSentence', object="Qué temas se van a tratar en cada curso?"))
+db.session.add(
+    Triple(subject='ObtenerContenidos', predicate='hasSentence', object="Cuál es la temática de cada curso?"))
+db.session.add(
+    Triple(subject='ObtenerContenidos', predicate='hasSentence', object="Qué temas se van a tratar en cada curso?"))
 
 db.session.commit()

@@ -48,7 +48,7 @@
 
         $("#intent-options").change(function () {
             {#$("#intent-options")#}
-            console.log(get_selected_intent());
+            {#console.log(get_selected_intent());#}
             $("#intent-options-help").empty().append(get_selected_intent().description);
         });
 
@@ -91,7 +91,7 @@
 
             var options = [];
             options_raw.forEach(function (item, index) {
-                console.log(item);
+                {#console.log(item);#}
                 var subject_aux = subject_keyword[index];
                 if (item !== "--") {
                     var parts = item.split("[");
@@ -103,16 +103,22 @@
                 }
 
             });
-            var data = {
-                "intent": current_intent,
-                "options": options
-            };
+            if (options.length < 0) {
+                var data = {
+                    "intent": current_intent,
+                    "options": options
+                };
 
-            console.log(data)
+                {#console.log(data);#}
 
-            makeAjaxCall("{{ url_for('new_key_words') }}", "POST", JSON.stringify(data)).then(function (respJson) {
-                console.log(respJson)
-            });
+                makeAjaxCall("{{ url_for('new_key_words') }}", "POST", JSON.stringify(data)).then(function (respJson) {
+                    {#console.log(respJson);#}
+                    $("#results").empty();
+                });
+            } else {
+                $("#results").empty();
+            }
+
         })
         ;
 
@@ -201,7 +207,7 @@
                             });
                             key_words += " </ul>";
                         } else {
-                            key_words = "<h5>No se ha encontrado Key words asociadas a la intencion </h5>";
+                            key_words = "<h5>No se ha encontrado palabras clave asociadas a la intencion </h5>";
                         }
 
 
