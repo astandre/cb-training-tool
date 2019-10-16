@@ -185,4 +185,4 @@ def new_key_words():
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.run(debug=config('DEBUG'))
+    app.run(host=config('HOST'), debug=config('DEBUG'))
