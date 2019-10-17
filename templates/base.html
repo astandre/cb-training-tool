@@ -19,7 +19,14 @@
 
 
 {% endblock %}
-
+<footer style=" position: relative;
+    right: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;">
+    <p><a href="https://github.com/astandre/cb-training-tool">Conoce mas de este proyecto</a></p>
+</footer>
 <script type="text/javascript">
     var csrftoken = Cookies.get('csrftoken');
 
@@ -37,6 +44,10 @@
 
     $(document).ready(function () {
         console.log("ready!");
+        $("#sentences").hide();
+        $("#result-container").hide();
+        $("#begin").css("padding-top", "17%")
+            .css("padding-bottom", "20%");
         makeAjaxCall("{{ url_for('get_intents') }}", "GET").then(function (respJson) {
                 {#console.log("GET<<<");#}
                 {#console.log(respJson["options"]);#}
@@ -45,7 +56,7 @@
                     {#console.log(item, index);#}
                     $("#intent-options").append(`<option value=${item.intent}>${item.intent}</option>`);
                 });
-                $("#intent-options-help").append(respJson["options"][0]["description"])
+                $("#intent-options-help").append("Selecciona una intencion para comenzar")
 
             },
             function (reason) {
