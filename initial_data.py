@@ -24,7 +24,7 @@ db.session.add(Triple(subject='ObtenerInformacion', predicate='hasSentence', obj
 
 db.session.add(Triple(subject='ObtenerFechas', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerFechas', predicate='hasDescription',
-                      object="Como preguntarias por las fechas importantes de un curso"))
+                      object="¿Como preguntarias por las fechas importantes de un curso?"))
 db.session.add(Triple(subject='ObtenerFechas', predicate='hasKeyword', object="ObtenerFechas-Keyword1"))
 db.session.add(Triple(subject='ObtenerFechas', predicate='hasKeyword', object="ObtenerFechas-Keyword2"))
 db.session.add(Triple(subject='ObtenerFechas', predicate='hasKeyword', object="ObtenerFechas-Keyword3"))
@@ -42,7 +42,7 @@ db.session.add(Triple(subject='ObtenerFechas', predicate='hasSentence', object="
 # Obtener fechas de inicio
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasDescription',
-                      object="Como preguntarias por las fechas de inicio de un curso"))
+                      object="¿Como preguntarias por las fechas de inicio de un curso?"))
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasKeyword', object="ObtenerFechasInicio-Keyword1"))
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasKeyword', object="ObtenerFechasInicio-Keyword2"))
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasKeyword', object="ObtenerFechasInicio-Keyword3"))
@@ -60,7 +60,7 @@ db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasSentence', ob
 # Intencion obtener prerequisitos
 db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasDescription',
-                      object="Como preguntarias por los requisitos previos de un curso"))
+                      object="¿Como preguntarias por los requisitos previos de un curso?"))
 db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasKeyword', object="ObtenerPrerequisitos-Keyword1"))
 db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasKeyword', object="ObtenerPrerequisitos-Keyword2"))
 db.session.add(Triple(subject='ObtenerPrerequisitos-Keyword1', predicate='hasWord', object="prerequisitos"))
@@ -80,7 +80,7 @@ db.session.add(Triple(subject='ObtenerPrerequisitos', predicate='hasSentence',
 
 db.session.add(Triple(subject='ObtenerDuracion', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasDescription',
-                      object="Como preguntarias por la duracion de un curso"))
+                      object="¿Como preguntarias por la duracion de un curso?"))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasKeyword', object="ObtenerDuracion-Keyword1"))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasKeyword', object="ObtenerDuracion-Keyword2"))
 db.session.add(Triple(subject='ObtenerDuracion', predicate='hasKeyword', object="ObtenerDuracion-Keyword3"))
@@ -104,7 +104,7 @@ db.session.add(Triple(subject='ObtenerDuracion', predicate='hasSentence', object
 
 db.session.add(Triple(subject='ObtenerPrecio', predicate='rdf:type', object="Intent"))
 db.session.add(
-    Triple(subject='ObtenerPrecio', predicate='hasDescription', object="Como preguntarias por el precio de un curso"))
+    Triple(subject='ObtenerPrecio', predicate='hasDescription', object="¿Como preguntarias por el precio de un curso?"))
 db.session.add(Triple(subject='ObtenerPrecio', predicate='hasKeyword', object="ObtenerPrecio-Keyword1"))
 db.session.add(Triple(subject='ObtenerPrecio', predicate='hasKeyword', object="ObtenerPrecio-Keyword2"))
 db.session.add(Triple(subject='ObtenerPrecio', predicate='hasKeyword', object="ObtenerPrecio-Keyword3"))
@@ -126,7 +126,7 @@ db.session.add(Triple(subject='ObtenerPrecio', predicate='hasSentence', object="
 # Intencion obtener docente
 db.session.add(Triple(subject='ObtenerDocente', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasDescription',
-                      object="Como preguntarias por el docente encargado de un curso"))
+                      object="¿Como preguntarias por el docente encargado de un curso?"))
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasKeyword', object="ObtenerDocente-Keyword1"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasKeyword', object="ObtenerDocente-Keyword2"))
 db.session.add(Triple(subject='ObtenerDocente', predicate='hasKeyword', object="ObtenerDocente-Keyword3"))
@@ -147,7 +147,7 @@ db.session.add(Triple(subject='ObtenerDocente', predicate='hasSentence', object=
 # Intencion Obtener Cotenidos
 db.session.add(Triple(subject='ObtenerContenidos', predicate='rdf:type', object="Intent"))
 db.session.add(Triple(subject='ObtenerContenidos', predicate='hasDescription',
-                      object="Como preguntarias por los temas de un curso"))
+                      object="¿Como preguntarias por los temas de un curso?"))
 db.session.add(Triple(subject='ObtenerFechasInicio', predicate='hasKeyword', object="ObtenerContenidos-Keyword1"))
 db.session.add(Triple(subject='ObtenerContenidos', predicate='hasKeyword', object="ObtenerContenidos-Keyword2"))
 db.session.add(Triple(subject='ObtenerContenidos', predicate='hasKeyword', object="ObtenerContenidos-Keyword3"))

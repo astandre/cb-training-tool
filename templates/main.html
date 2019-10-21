@@ -22,7 +22,8 @@
                         <img src="/static/images/one.png" alt="" style="width: 50px; height: 50px">
                     </div>
                     <div class="col-md-10">
-                        <p>Ayudamos a entrenar el Chatbot!, Primero selecciona una intencion con la que podamos
+                        <p>Ayudamos a entrenar a OpenBot el chatbot de Open Campus!, Primero selecciona una intencion
+                            con la que podamos
                             trabajar.
                             Una intencion se refiere a una tarea o un objetivo que queremos completar.
                             Si deseas conocer mas como funciona un chatbot, te recomiendo que revises este <a
@@ -32,56 +33,14 @@
                 </div>
             </div>
         </div>
-        {#        <div class="row" id="temporary">#}
-        {#            <img src="https://engineering.giphy.com/wp-content/uploads/2019/04/giphy-5.gif" alt="">#}
-        {#        </div>#}
         <div class="row" id="sentences">
             <div class="col-md-8">
                 <h2>Oraciones de prueba</h2>
-                <div class="input-group mb-3">
-                    <button type="button" class="btn btn-info" id="example">Ejemplo</button>
-                    <label class="input-group-text" style="visibility: hidden;" id="example-label"></label>
-                </div>
-                <div id="oraciones" style="overflow-y: scroll; height: 300px">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary " type="button" disabled>Oracion 1</button>
-                        </div>
-                        <input type="text" class="form-control sentence" placeholder="" aria-label=""
-                               aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary " type="button" disabled>Oracion 2</button>
-                        </div>
-                        <input type="text" class="form-control sentence" placeholder="" aria-label=""
-                               aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary " type="button" disabled>Oracion 3</button>
-                        </div>
-                        <input type="text" class="form-control sentence" placeholder="" aria-label=""
-                               aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary " type="button" disabled>Oracion 4</button>
-                        </div>
-                        <input type="text" class="form-control sentence" placeholder="" aria-label=""
-                               aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary " type="button" disabled>Oracion 5</button>
-                        </div>
-                        <input type="text" class="form-control sentence" placeholder="" aria-label=""
-                               aria-describedby="basic-addon1">
-                    </div>
-
+                <h3 style="visibility: hidden;" id="example-label"></h3>
+                <div id="oraciones" style="overflow-y: scroll; height: 500px">
                 </div>
                 <button type="button" class="btn btn-primary" id="new-sentence">Nueva oracion</button>
-                <button type="button" class="btn btn-success" id="send">Evaluar</button>
+                {#                <button type="button" class="btn btn-success" id="send">Evaluar</button>#}
             </div>
             <div class="col-md-4">
                 <div class="row">
@@ -96,47 +55,33 @@
                         <p>
                             Dale click en
                             <button type="button" class="btn btn-primary">Nueva oracion</button>
-                            para añadir nuevas oraciones de prueba.
-                            O dale click en
-                            <button type="button" class="btn btn-success">Evaluar</button>
-                            para continuar
+                            para añadir nuevas oraciones de prueba para continuar.
                         </p>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" id="result-container">
-            <div class="col-md-8">
-                <h2>Resultados:</h2>
-                <div class="progress" id="avance">
-
-                </div>
-                <div id="results">
-
-                </div>
-                <div class="results-controls">
-                    <button type="button" class="btn btn-primary" id="accept">Aceptar</button>
-                    <button type="button" class="btn btn-danger" id="incorrect">Incorrecto</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="row">
+                <div class="row" id="third-step">
                     <div class="col-md-2">
                         <img src="/static/images/three.png" alt="" style="width: 50px; height: 50px">
                     </div>
                     <div class="col-md-10">
                         <p>
                             Las maquinas no entienden de la misma manera que tu. Por eso necesitan tu ayuda para ser mas
-                            inteligentes.
+                            inteligentes. Ingresa una oración que haga referencia a la intencion y usa el boton de
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal">
+                                Evaluar
+                            </button>
+                            para descomponer la oracion.
                             Que estamos viendo? Mediante tecnias de procesamiendod de lenguaje natural hemos podido
                             encontrar una serie de cosas:
                         </p>
                         <ul>
                             <li><strong>Conceptos claves: </strong>Se refieren a palabras claves que podemos encontrar
-                                en una intencion, ayunas a determinar sinonimos o nuevas palabras que hagan refenencia a
+                                en una intencion, ayudanos a determinar sinonimos o nuevas palabras que hagan refenencia
+                                a
                                 nuestra intencion
                             </li>
-                            <li><strong>Entidades: </strong> son el tipo valores que refinan nuestra entidad</li>
+                            <li><strong>Entidades: </strong> son el tipo valores que refinan nuestra intencion</li>
                             <li><strong>Instancias: </strong> es una instancia de entidad que hemos podido encontrar
                             </li>
                         </ul>
@@ -154,16 +99,59 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="result-title">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="results">
+                        <p>Debes escribir una sentencia valida</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {#                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+                    {#                    <button type="button" class="btn btn-primary">Save changes</button>#}
+                    <button type="button" class="btn btn-primary sentence-control" id="accept" data-dismiss="modal">
+                        Aceptar
+                    </button>
+                    <button type="button" class="btn btn-danger sentence-control" id="incorrect" data-dismiss="modal">
+                        Incorrecto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         {#var intents;#}
         var current_intent;
         var shown = false;
-        var results_size;
         var current_result = 0;
+        var results_size = 0;
+        var current_index;
         $("#intent-options").change(function () {
             {#$("#intent-options")#}
             {#console.log(get_selected_intent());#}
-            $("#intent-options-help").empty().append(get_selected_intent().description);
+            {#$("#intent-options-help").empty().append(get_selected_intent().description);#}
+            var data = {"intent": get_selected_intent().intent};
+            makeAjaxCall("{{ url_for('get_intent_sentences') }}", "POST", JSON.stringify(data)).then(function (respJson) {
+                {#console.log(respJson);#}
+                $("#example-label").css("visibility", "visible").empty().append(respJson["description"]);
+                $("#oraciones").empty();
+                respJson["sentences"].forEach(function (item, index2) {
+                    add_sentence(item, "C");
+                    results_size = $(".sentence").length;
+                });
+
+            });
             if (shown === false) {
                 $("#sentences").show();
                 shown = true;
@@ -172,6 +160,7 @@
                     .css("padding-bottom", "0%");
             }
         });
+
 
         $("#example").click(function () {
             var data = {"intent": get_selected_intent().intent};
@@ -184,28 +173,53 @@
             );
         });
 
+        function add_sentence(text, type) {
+            var size = $(".sentence").length;
+
+            if (type === "C") {
+                $("#oraciones")
+                    .append(` <div class="input-group mb-3 sentence_container">
+                    <input type="text" class="form-control sentence"  placeholder="" aria-label=""
+                           aria-describedby="basic-addon1" value="${text}" readonly="readonly" >
+                </div>`);
+            } else {
+                $("#oraciones")
+                    .append(` <div class="input-group mb-3 sentence_container">
+                    <input type="text" class="form-control sentence"  placeholder="" aria-label=""
+                           aria-describedby="basic-addon1" value="${text}">
+ <div class="input-group-prepend">
+     <button type="button" class="btn btn-primary evaluate_button" data-toggle="modal" data-target="#exampleModal" onclick="evaluar(${size})">
+        Evaluar
+    </button>
+                    </div>
+                </div>`);
+            }
+            {#<button class="btn btn-outline-secondary " type="button" onclick="evaluar(${size})" >Evaluar</button>#}
+        }
 
         $("#new-sentence").click(function () {
-            var size = $(".sentence").length;
-            {#console.log(size);#}
-            $("#oraciones")
-                .append(` <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary " type="button" disabled>Oracion ${size + 1}</button>
-                    </div>
-                    <input type="text" class="form-control sentence"  placeholder="" aria-label=""
-                           aria-describedby="basic-addon1">
-                </div>`)
+            add_sentence("");
+
+            $("#third-step").show();
         });
+
+        function remove_button_sentence(index) {
+            var inputs = $(".sentence_container");
+            var sentences = $(".sentence");
+            var sentence = $(sentences[index]).val();
+            $(inputs[index]).remove();
+            add_sentence(sentence, "C")
+
+        }
 
         $("#incorrect").click(function () {
 
             alert("Gracias!, Tomaremos en cuenta tus cambios para mejorar nuestro chatbot.");
-            display_result(results[current_result], current_result);
 
         });
 
         $("#accept").click(function () {
+
 
             var subject_keyword = [];
 
@@ -232,77 +246,59 @@
                 }
 
             });
-            if (options.length > 0) {
-                var data = {
-                    "intent": current_intent,
-                    "options": options
-                };
 
-                {#console.log(data);#}
+            var inputs = $(".sentence");
+            var sentence = $(inputs[current_index]).val();
 
-                makeAjaxCall("{{ url_for('new_key_words') }}", "POST", JSON.stringify(data)).then(function (respJson) {
-                    {#console.log(respJson);#}
-                    alert("Gracias!, Tomaremos en cuenta tus cambios para mejorar nuestro chatbot.");
-                    {#$("#message")#}
-                    {#    .empty()#}
-                    {#    .append();#}
+            var data = {
+                "intent": current_intent,
+                "options": options,
+                "sentence": sentence
+            };
 
-                });
-            } else {
-                $("#results").empty();
-            }
+            {#console.log(data);#}
 
-            display_result(results[current_result], current_result);
+            makeAjaxCall("{{ url_for('new_key_words') }}", "POST", JSON.stringify(data)).then(function (respJson) {
+                {#console.log(respJson);#}
+                alert("Gracias!, Tomaremos en cuenta tus cambios para mejorar nuestro chatbot.");
+                {#$("#message")#}
+                {#    .empty()#}
+                {#    .append();#}
+                remove_button_sentence(current_index);
+
+            });
+
+
+            {#display_result(results[current_result], current_result);#}
 
 
         });
 
-
-        $("#send").click(function () {
-
-            var sentences = [];
+        function evaluar(index) {
             current_intent = get_selected_intent().intent;
+
             var inputs = $(".sentence");
-            {#console.log(inputs);#}
-            for (var i = 0; i < inputs.length; i++) {
-                {#console.log($(inputs[i]).val());#}
-                var value = $(inputs[i]).val();
-                if (value.length > 0) {
-                    sentences.push($(inputs[i]).val())
-                }
-
-            }
-            var data = {
-                "intent": get_selected_intent().intent,
-                "sentences": sentences
-            };
-
-            {#console.log(data);#}
+            {#console.log($(inputs[index]).val());#}
+            var sentence = $(inputs[index]).val();
             if (current_intent !== "--") {
-                if (sentences.length > 0) {
-                    current_result = 0;
+                if (sentence.length > 0) {
+                    var data = {
+                        "intent": get_selected_intent().intent,
+                        "sentences": [sentence]
+                    };
                     makeAjaxCall("{{ url_for('extract_info') }}", "POST", JSON.stringify(data)).then(function (respJson) {
                             {#console.log(respJson);#}
                             $("#result-container").show(100);
                             $("#results").empty();
-                            $('html, body').animate({scrollTop: 600}, 'fast');
-                            {#$("#oraciones").empty()#}
-                            {#$("#oraciones")#}
-                            {#    .append('<div class="input-group mb-3">\n' +#}
-                            {#        '                    <div class="input-group-prepend">\n' +#}
-                            {#        '                        <button class="btn btn-outline-secondary " type="button" disabled>Oracion 1</button>\n' +#}
-                            {#        '                    </div>\n' +#}
-                            {#        '                    <input type="text" class="form-control sentence" placeholder="" aria-label=""\n' +#}
-                            {#        '                           aria-describedby="basic-addon1">\n' +#}
-                            {#        '                </div>');#}
-
-                            results_size = respJson["sentences"].length;
-                            results = respJson["sentences"];
-                            console.log(current_result);
-                            console.log(results_size);
-                            display_result(results[current_result], current_result);
-
-                            {#respJson["sentences"].forEach(function (item, index) {#}
+                            $("#result-title").empty().append(sentence + " [" + current_intent + "]");
+                            $(".sentence-control").show();
+                            {#results_size = respJson["sentences"].length;#}
+                            {#results = respJson["sentences"];#}
+                            {#console.log(current_result);#}
+                            {#console.log(results_size);#}
+                            display_result(respJson["sentences"][0]);
+                            current_index = index;
+                            {#button_index = current_index - #}
 
                         },
                         function (reason) {
@@ -310,97 +306,181 @@
                         }
                     );
                 } else {
-                    alert("Ingresa por lo menos una oracion de prueba")
+                    $(".sentence-control").hide();
+                    $("#result-title").empty().append("ERROR");
+                    $("#results").empty()
+                        .append("<p>Ingrese una sentencia valida!</p>");
                 }
-
-            } else {
-                alert("Selecciona una intencion primero")
             }
 
+        }
+
+
+        {#$("#send").click(function () {#}
+        {##}
+        {#    var sentences = [];#}
+        {#    current_intent = get_selected_intent().intent;#}
+        {#    var inputs = $(".sentence");#}
+        {#console.log(inputs);#}
+        {#    for (var i = 0; i < inputs.length; i++) {#}
+        {#console.log($(inputs[i]).val());#}
+        {#        var value = $(inputs[i]).val();#}
+        {#        if (value.length > 0) {#}
+        {#            sentences.push($(inputs[i]).val())#}
+        {#        }#}
+        {##}
+        {#    }#}
+        {#    var data = {#}
+        {#        "intent": get_selected_intent().intent,#}
+        {#        "sentences": sentences#}
+        {#    };#}
+        {##}
+        {#console.log(data);#}
+        {#    if (current_intent !== "--") {#}
+        {#        if (sentences.length > 0) {#}
+        {#            current_result = 0;#}
+        {#            makeAjaxCall("{{ url_for('extract_info') }}", "POST", JSON.stringify(data)).then(function (respJson) {#}
+        {#console.log(respJson);#}
+        {#                    $("#result-container").show(100);#}
+        {#                    $("#results").empty();#}
+        {#                    $('html, body').animate({scrollTop: 600}, 'fast');#}
+        {#$("#oraciones").empty()#}
+        {#$("#oraciones")#}
+        {#    .append('<div class="input-group mb-3">\n' +#}
+        {#        '                    <div class="input-group-prepend">\n' +#}
+        {#        '                        <button class="btn btn-outline-secondary " type="button" disabled>Oracion 1</button>\n' +#}
+        {#        '                    </div>\n' +#}
+        {#        '                    <input type="text" class="form-control sentence" placeholder="" aria-label=""\n' +#}
+        {#        '                           aria-describedby="basic-addon1">\n' +#}
+        {#        '                </div>');#}
+        {##}
+        {#                    results_size = respJson["sentences"].length;#}
+        {#                    results = respJson["sentences"];#}
+        {#                    console.log(current_result);#}
+        {#                    console.log(results_size);#}
+        {#                    display_result(results[current_result], current_result);#}
+        {##}
+        {#respJson["sentences"].forEach(function (item, index) {#}
+        {##}
+        {#                },#}
+        {#                function (reason) {#}
+        {#                    console.log("error in processing your request", reason);#}
+        {#                }#}
+        {#            );#}
+        {#        } else {#}
+        {#            alert("Ingresa por lo menos una oracion de prueba")#}
+        {#        }#}
+        {##}
+        {#    } else {#}
+        {#        alert("Selecciona una intencion primero")#}
+        {#    }#}
+        {##}
+        {##}
+        //);
+
+        function get_selected_intent() {
+            var e = document.getElementById("intent-options");
+            var strUser = e.options[e.selectedIndex].value;
+            var result;
+            intents.forEach(function (item, index) {
+                if (item.intent === strUser) {
+                    result = item;
+                }
+            });
+            return result;
+        }
+
+        $(document).ready(function () {
+            console.log("ready!");
+            $("#sentences").hide();
+            $("#result-container").hide();
+            $("#third-step").hide();
+            $("#begin").css("padding-top", "17%")
+                .css("padding-bottom", "20%");
+            makeAjaxCall("{{ url_for('get_intents') }}", "GET").then(function (respJson) {
+                    {#console.log("GET<<<");#}
+                    {#console.log(respJson["options"]);#}
+                    intents = respJson["options"];
+                    respJson["options"].forEach(function (item, index) {
+                        {#console.log(item, index);#}
+                        $("#intent-options").append(`<option value=${item.intent}>${item.intent}</option>`);
+                    });
+                    $("#intent-options-help").append("Selecciona una intencion para comenzar")
+
+                },
+                function (reason) {
+                    console.log("error in processing your request", reason);
+                }
+            );
 
         });
 
-        function display_result(item, index) {
-
-            if (current_result < results_size) {
-                current_result += 1;
-                var current_progress = (current_result * 100) / results_size;
-                $("#avance").empty()
-                    .append(' <div class="progress-bar bg-success" style="width:' + current_progress + '%" role="progressbar" aria-valuenow="' + current_result + '" aria-valuemin="0"\n' +
-                        '                         aria-valuemax="' + results_size + '"></div>');
-                var result_text = "";
-                item["sentence"].forEach(function (item2, index2) {
-                    if (item2.type === "text") {
-                        result_text += item2.text;
-                    } else {
-                        result_text += "<button type='button' class='btn btn-primary' >" + item2.text + "</button>";
-                    }
+        function display_result(item) {
+            var result_text = "";
+            item["sentence"].forEach(function (item2, index2) {
+                if (item2.type === "text") {
+                    result_text += item2.text;
+                } else {
+                    result_text += "<button type='button' class='btn btn-primary' >" + item2.text + "</button>";
+                }
+            });
+            var entities;
+            if (item["entities"].length > 0) {
+                entities = "<ul>";
+                item["entities"].forEach(function (item3, index2) {
+                    entities += "<li>" + item3 + "</li>"
                 });
-                var entities;
-                if (item["entities"].length > 0) {
-                    entities = "<ul>";
-                    item["entities"].forEach(function (item3, index2) {
-                        entities += "<li>" + item3 + "</li>"
-                    });
-                    entities += "</ul>";
-                } else {
-                    entities = "<h5>No se ha encontrado entidades</h5>";
-                }
-                var instances;
-                if (item["instances"].length > 0) {
-                    instances = "<ul>";
-                    item["instances"].forEach(function (item4, index2) {
-                        instances += "<li>" + item4[0] + " - " + item4[1] + "</li>"
-                    });
-                    instances += "</ul>";
-                } else {
-                    instances = "<h5>No se ha encontrado instancias de entidades</h5>";
-                }
-                var tokens;
-                if (item["tokens"].length > 0) {
-                    tokens = "<select class='form-control options' >";
-                    tokens += "<option>--</option>";
-                    item["tokens"].forEach(function (item5, index2) {
-                        tokens += "<option>" + item5[0] + " [" + item5[1] + "]" + "</option>";
-                    });
-                    tokens += "</select>";
-                } else {
-                    tokens = "<h5>No se ha encontrado tokens</h5>";
-                }
-
-                var key_words;
-                if (item["key_words"].length > 0) {
-                    key_words = "<ul id='options-main'>";
-                    item["key_words"].forEach(function (item5, index2) {
-                        {#console.log(item5, index2);#}
-                        key_words += "<li rel='" + item5[2] + "'>" + item5[0] + " [" + item5[1] + "]" + tokens + "</li>";
-                    });
-                    key_words += " </ul>";
-                } else {
-                    key_words = "<h5>No se ha encontrado palabras clave asociadas a la intencion </h5>";
-                }
-
-                index = index + 1;
-                d = document.createElement('div');
-                $(d).addClass("result")
-                    .append("<h2>Oracion N# " + index + " [" + current_intent + "]</h2>")
-                    .append(result_text)
-                    .append("<h3>Conceptos clave</h3>")
-                    .append(key_words)
-                    .append("<h3>Entidades</h3>")
-                    .append(entities)
-                    .append("<h3>Instancias</h3>")
-                    .append(instances)
-                    .append("<hr>")
-                    .appendTo($("#results").empty());
+                entities += "</ul>";
             } else {
-                alert("Gracias por tu ayuda!");
-                $("#sentences").hide();
-                $("#result-container").hide();
-                $("#begin").css("padding-top", "17%")
-                    .css("padding-bottom", "20%");
-                shown = false;
+                entities = "<h5>No se ha encontrado entidades</h5>";
             }
+            var instances;
+            if (item["instances"].length > 0) {
+                instances = "<ul>";
+                item["instances"].forEach(function (item4, index2) {
+                    instances += "<li>" + item4[0] + " - " + item4[1] + "</li>"
+                });
+                instances += "</ul>";
+            } else {
+                instances = "<h5>No se ha encontrado instancias de entidades</h5>";
+            }
+            var tokens;
+            if (item["tokens"].length > 0) {
+                tokens = "<select class='form-control options' >";
+                tokens += "<option>--</option>";
+                item["tokens"].forEach(function (item5, index2) {
+                    tokens += "<option>" + item5[0] + " [" + item5[1] + "]" + "</option>";
+                });
+                tokens += "</select>";
+            } else {
+                tokens = "<h5>No se ha encontrado tokens</h5>";
+            }
+
+            var key_words;
+            if (item["key_words"].length > 0) {
+                key_words = "<ul id='options-main'>";
+                item["key_words"].forEach(function (item5, index2) {
+                    {#console.log(item5, index2);#}
+                    key_words += "<li rel='" + item5[2] + "'>" + item5[0] + " [" + item5[1] + "]" + tokens + "</li>";
+                });
+                key_words += " </ul>";
+            } else {
+                key_words = "<h5>No se ha encontrado palabras clave asociadas a la intencion </h5>";
+            }
+
+            d = document.createElement('div');
+            $(d).addClass("result")
+            {#.append("<h2>Oracion N# " + index + " [" + current_intent + "]</h2>")#}
+                .append(result_text)
+                .append("<h3>Conceptos clave</h3>")
+                .append(key_words)
+                .append("<h3>Entidades</h3>")
+                .append(entities)
+                .append("<h3>Instancias</h3>")
+                .append(instances)
+                .append("<hr>")
+                .appendTo($("#results").empty());
+
         }
 
 

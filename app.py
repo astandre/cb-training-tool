@@ -40,6 +40,24 @@ def train_view():
     return render_template("main.html")
 
 
+@app.route('/statistics', methods=['GET'])
+def statistics():
+    """
+    Main page
+    :return:
+    """
+    result = {}
+    unique_intents = Triple.query.with_entities(Triple.subject).filter_by(predicate='rdf:type', object="Intent").all()
+    result["intents"] = [intent[0] for intent in unique_intents]
+    sentences_count = Triple.query.filter_by(predicate='hasSentence').count()
+    triples_count = Triple.query.count()
+    result["sentences_count"] = sentences_count
+    result["sentences_prom"] = sentences_count / len(unique_intents)
+    result["triples_count"] = triples_count
+
+    return render_template("statistics.html", result=result)
+
+
 @app.route('/train/intents')
 def intents_view():
     """
@@ -124,12 +142,12 @@ def get_intent_example():
 @app.route('/intents/sentences', methods=['POST'])
 def get_intent_sentences():
     sentences = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
-    result = {"sentences": []}
+    description = Triple.query.filter_by(subject=request.json["intent"], predicate='hasDescription').first()
+    result = {"sentences": [], "description": description.object}
     for sentence in sentences:
         # print(sentence.object)
-        new_sentence, entities, instances = decompose_sentence(sentence.object)
-        result["sentences"].append(
-            {"sentence": new_sentence, "entities": entities, "instances": instances, "id": sentence.id})
+        # new_sentence, entities, instances, tokens = decompose_sentence(sentence.object)
+        result["sentences"].append(sentence.object)
     return result
 
 
@@ -161,6 +179,11 @@ def extract_info():
 
 @app.route('/add/keyword', methods=['POST'])
 def new_key_words():
+    sentence = request.json["sentence"]
+    if len(sentence) > 0:
+        sentence_object = Triple(subject=request.json["intent"], predicate='hasSentence', object=sentence)
+        db.session.add(sentence_object)
+        # db.session.commit()
     if len(request.json["options"]) > 0:
         key_words_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasProposedKeyword').all()
         if len(key_words_aux) > 0:
@@ -177,7 +200,7 @@ def new_key_words():
                 db.session.add(Triple(subject=key_subject, predicate='hasPOS', object=option["pos"]))
                 db.session.add(Triple(subject=key_subject, predicate='refersTo', object=option["subject"]))
                 number += 1
-        db.session.commit()
+    db.session.commit()
 
     return {"status": 200}
 

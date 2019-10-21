@@ -30,41 +30,7 @@
 <script type="text/javascript">
     var csrftoken = Cookies.get('csrftoken');
 
-    function get_selected_intent() {
-        var e = document.getElementById("intent-options");
-        var strUser = e.options[e.selectedIndex].value;
-        var result;
-        intents.forEach(function (item, index) {
-            if (item.intent === strUser) {
-                result = item;
-            }
-        });
-        return result;
-    }
 
-    $(document).ready(function () {
-        console.log("ready!");
-        $("#sentences").hide();
-        $("#result-container").hide();
-        $("#begin").css("padding-top", "17%")
-            .css("padding-bottom", "20%");
-        makeAjaxCall("{{ url_for('get_intents') }}", "GET").then(function (respJson) {
-                {#console.log("GET<<<");#}
-                {#console.log(respJson["options"]);#}
-                intents = respJson["options"];
-                respJson["options"].forEach(function (item, index) {
-                    {#console.log(item, index);#}
-                    $("#intent-options").append(`<option value=${item.intent}>${item.intent}</option>`);
-                });
-                $("#intent-options-help").append("Selecciona una intencion para comenzar")
-
-            },
-            function (reason) {
-                console.log("error in processing your request", reason);
-            }
-        );
-
-    });
 
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection

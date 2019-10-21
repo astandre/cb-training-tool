@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Estadisticas{% endblock %}
+{% block main %}
+    <div class="container" style="padding-top:17%;padding-bottom:20%">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Intenciones unicas</h3>
+                <ul>
+                    {% for intent in result.intents %}
+                        <li>{{ intent }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3>Oraciones de prueba</h3>
+                <p>Total de oraciones: {{ result.sentences_count }}</p>
+                <p>Promedio de preguntas por oraciones: {{ result.sentences_prom }}</p>
+
+            </div>
+            <div class="col-md-4">
+                <h3>Tripletas</h3>
+                <p>Numero de tripletas: {{ result.triples_count }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
