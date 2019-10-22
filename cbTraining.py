@@ -188,9 +188,9 @@ def extract_info():
 def add_data():
     sentence = request.json["sentence"]
     if len(sentence) > 0:
-        exists = Triple.query.filter_by( object=sentence).all()
-        if exists > 0:
-            sentence_predicate = exists.subject
+        exists = Triple.query.filter_by(object=sentence).all()
+        if len(exists) > 0:
+            sentence_predicate = exists[0].subject
         else:
             sentence_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
             sentence_aux = sentence_aux[len(sentence_aux) - 1]
@@ -199,6 +199,7 @@ def add_data():
             sentence_object = Triple(subject=request.json["intent"], predicate="hasSentence", object=sentence_predicate)
             new_sentence = Triple(subject=sentence_predicate, predicate='hasText', object=sentence)
             db.session.add(new_sentence)
+            db.session.add(sentence_object)
         print(sentence_predicate)
         if request.json["correct"] is not True:
             correct_sentence = Triple(subject=sentence_predicate, predicate='hasClassification', object="WRONG")
@@ -222,7 +223,6 @@ def add_data():
                 db.session.add(Triple(subject=instance_subject, predicate='hasInstanceValue', object=instance[0]))
                 db.session.add(Triple(subject=instance_subject, predicate='hasInstanceType', object=instance[1]))
 
-        db.session.add(sentence_object)
         # db.session.commit()
     if len(request.json["options"]) > 0:
         key_words_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasProposedKeyword').all()
@@ -231,15 +231,14 @@ def add_data():
             number = int(re.findall(r'\d+', key_words_aux.object)[0]) + 1
         else:
             number = 0
-            for option in request.json["options"]:
-                # print(option)
-                key_subject = request.json["intent"] + "-Keyword" + str(number)
-                db.session.add(
-                    Triple(subject=request.json["intent"], predicate='hasProposedKeyword', object=key_subject))
-                db.session.add(Triple(subject=key_subject, predicate='hasWord', object=option["word"].lower()))
-                db.session.add(Triple(subject=key_subject, predicate='hasPOS', object=option["pos"]))
-                db.session.add(Triple(subject=key_subject, predicate='refersTo', object=option["subject"]))
-                number += 1
+        for option in request.json["options"]:
+            # print(option)
+            key_subject = request.json["intent"] + "-Keyword" + str(number)
+            db.session.add(Triple(subject=request.json["intent"], predicate='hasProposedKeyword', object=key_subject))
+            db.session.add(Triple(subject=key_subject, predicate='hasWord', object=option["word"].lower()))
+            db.session.add(Triple(subject=key_subject, predicate='hasPOS', object=option["pos"]))
+            db.session.add(Triple(subject=key_subject, predicate='refersTo', object=option["subject"]))
+            number += 1
 
     db.session.commit()
 
