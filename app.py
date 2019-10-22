@@ -188,17 +188,20 @@ def extract_info():
 def add_data():
     sentence = request.json["sentence"]
     if len(sentence) > 0:
-        sentence_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
-        sentence_aux = sentence_aux[len(sentence_aux) - 1]
-        number = int(re.findall(r'\d+', sentence_aux.object)[0]) + 1
-        sentence_predicate = request.json["intent"] + '-Sentence-' + str(number)
+        exists = Triple.query.filter_by( object=sentence).all()
+        if exists > 0:
+            sentence_predicate = exists.subject
+        else:
+            sentence_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
+            sentence_aux = sentence_aux[len(sentence_aux) - 1]
+            number = int(re.findall(r'\d+', sentence_aux.object)[0]) + 1
+            sentence_predicate = request.json["intent"] + '-Sentence-' + str(number)
+            sentence_object = Triple(subject=request.json["intent"], predicate="hasSentence", object=sentence_predicate)
+            new_sentence = Triple(subject=sentence_predicate, predicate='hasText', object=sentence)
+            db.session.add(new_sentence)
         print(sentence_predicate)
-        sentence_object = Triple(subject=request.json["intent"], predicate="hasSentence", object=sentence_predicate)
-        new_sentence = Triple(subject=sentence_predicate, predicate='hasText', object=sentence)
-        db.session.add(new_sentence)
         if request.json["correct"] is not True:
             correct_sentence = Triple(subject=sentence_predicate, predicate='hasClassification', object="WRONG")
-
         else:
             correct_sentence = Triple(subject=sentence_predicate, predicate='hasClassification', object="OK")
         db.session.add(correct_sentence)

@@ -368,7 +368,8 @@
                 }
             });
 
-            var entities = "<div class=\"form-check\">";
+            var entities = "<p><img src=\"/static/images/five.png\" alt=\"\" style=\"width: 25; height: 25px\">" +
+                "Selecciona que entidades se han encontrado de forma correctas.</p><div class=\"form-check\">";
             if (item["entities"].length > 0) {
                 item["entities"].forEach(function (item3, index2) {
                     entities += "<input class=\"form-check-input entity\" type=\"checkbox\" value='" + item3 + "' id=\"defaultCheck1\">" + item3 + " <br>"
@@ -377,7 +378,7 @@
             } else {
                 entities = "<h5>No se ha encontrado entidades</h5>";
             }
-            var instances = "<div class=\"form-check\">";
+            var instances = "<p><img src=\"/static/images/six.png\" alt=\"\" style=\"width: 25; height: 25px\"> Selecciona que instancias de entidades son correctas.</p><div class=\"form-check\">";
             if (item["instances"].length > 0) {
                 item["instances"].forEach(function (item4, index2) {
                     instances += "<input class=\"form-check-input instances\" type=\"checkbox\" value='" + item4[0] + "-" + item4[1] + "' id=\"defaultCheck1\">" + item4[0] + " - " + item4[1] + " <br>";
@@ -394,9 +395,7 @@
                 {#console.log(item["key_words"]);#}
                 item["key_words"].forEach(function (item5, index2) {
                     {#console.log(item5, index2);#}
-                    key_words += ` <div class="form-group options-main">
-                            <label for="${item5[2]}" >${item5[0]} [${item5[1]}]</label>
-                            <select multiple class="form-control options" id="${item5[2]}" >`;
+
 
                     var tokens = "";
                     item["tokens"].forEach(function (item6, index2) {
@@ -405,9 +404,12 @@
                         }
 
                     });
-                    key_words += "<li rel='" + item5[2] + "'>" + item5[0] + " [" + item5[1] + "]" + tokens + "</li> </select> </div>";
-
-                    {#key_words += "<li rel='" + item5[2] + "'>" + item5[0] + " [" + item5[1] + "]" + tokens + "</li>";#}
+                    if (tokens.length > 0) {
+                        key_words += ` <div class="form-group options-main">
+                            <label for="${item5[2]}" >${item5[0]} [${item5[1]}]</label>
+                            <select multiple class="form-control options" id="${item5[2]}" >`;
+                        key_words += "<li rel='" + item5[2] + "'>" + item5[0] + " [" + item5[1] + "]" + tokens + "</li> </select> </div>";
+                    }
                 });
                 key_words += " </select></ul>";
             } else {
@@ -422,10 +424,8 @@
                 .append("<p> <img src=\"/static/images/four.png\" alt=\"\" style=\"width: 25; height: 25px\"> Ayudanos a determinar que conceptos claves son similares</p>")
                 .append(key_words)
                 .append("<h3>Entidades</h3>")
-                .append("<p><img src=\"/static/images/five.png\" alt=\"\" style=\"width: 25; height: 25px\">Selecciona que entidades se han encontrado de forma correctas.</p>")
                 .append(entities)
                 .append("<h3>Instancias</h3>")
-                .append("<p><img src=\"/static/images/six.png\" alt=\"\" style=\"width: 25; height: 25px\"> Selecciona que instancias de entidades son correctas.</p>")
                 .append(instances)
                 .append("<p><img src=\"/static/images/seven.png\" alt=\"\" style=\"width: 25; height: 25px\"> La clasificacion es correcta?</p>")
                 .appendTo($("#results").empty());
