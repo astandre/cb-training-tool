@@ -124,7 +124,7 @@
                     {#                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
                     {#                    <button type="button" class="btn btn-primary">Save changes</button>#}
                     <button type="button" class="btn btn-primary sentence-control" id="accept" data-dismiss="modal">
-                        Aceptar
+                        Correcto
                     </button>
                     <button type="button" class="btn btn-danger sentence-control" id="incorrect" data-dismiss="modal">
                         Incorrecto
@@ -422,10 +422,12 @@
                 .append("<p> <img src=\"/static/images/four.png\" alt=\"\" style=\"width: 25; height: 25px\"> Ayudanos a determinar que conceptos claves son similares</p>")
                 .append(key_words)
                 .append("<h3>Entidades</h3>")
+                .append("<p><img src=\"/static/images/five.png\" alt=\"\" style=\"width: 25; height: 25px\">Selecciona que entidades se han encontrado de forma correctas.</p>")
                 .append(entities)
                 .append("<h3>Instancias</h3>")
+                .append("<p><img src=\"/static/images/six.png\" alt=\"\" style=\"width: 25; height: 25px\"> Selecciona que instancias de entidades son correctas.</p>")
                 .append(instances)
-                .append("<p><img src=\"/static/images/five.png\" alt=\"\" style=\"width: 25; height: 25px\"> La clasificacion es correcta?</p>")
+                .append("<p><img src=\"/static/images/seven.png\" alt=\"\" style=\"width: 25; height: 25px\"> La clasificacion es correcta?</p>")
                 .appendTo($("#results").empty());
 
         }
