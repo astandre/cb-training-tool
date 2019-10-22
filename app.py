@@ -1,10 +1,9 @@
-from flask import Flask
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_template, request
+from decouple import config
 from nlp_core import *
 import random
 import re
-from decouple import config
 
 # from flask_cors import CORS
 
@@ -50,10 +49,15 @@ def statistics():
     unique_intents = Triple.query.with_entities(Triple.subject).filter_by(predicate='rdf:type', object="Intent").all()
     result["intents"] = [intent[0] for intent in unique_intents]
     sentences_count = Triple.query.filter_by(predicate='hasSentence').count()
+    correct_classification = Triple.query.filter_by(predicate='hasClassification', object="OK").count()
+    incorrect_classification = Triple.query.filter_by(predicate='hasClassification', object="WRONG").count()
     triples_count = Triple.query.count()
     result["sentences_count"] = sentences_count
     result["sentences_prom"] = sentences_count / len(unique_intents)
     result["triples_count"] = triples_count
+    result["correct"] = correct_classification
+    result["incorrect"] = incorrect_classification
+    result["precision"] = (correct_classification * 100) / sentences_count
 
     return render_template("statistics.html", result=result)
 
@@ -141,25 +145,27 @@ def get_intent_example():
 
 @app.route('/intents/sentences', methods=['POST'])
 def get_intent_sentences():
-    sentences = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
+    sentences_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
     description = Triple.query.filter_by(subject=request.json["intent"], predicate='hasDescription').first()
     result = {"sentences": [], "description": description.object}
-    for sentence in sentences:
-        # print(sentence.object)
-        # new_sentence, entities, instances, tokens = decompose_sentence(sentence.object)
-        result["sentences"].append(sentence.object)
+    for aux in sentences_aux:
+        # print(aux)
+        sentences = Triple.query.filter_by(subject=aux.object, predicate='hasText').all()
+        for sentence in sentences:
+            # print(sentence)
+            result["sentences"].append(sentence.object)
     return result
 
 
-@app.route('/process', methods=['POST'])
+@app.route('/evaluate', methods=['POST'])
 def extract_info():
     result = {"sentences": []}
     for sentence in request.json["sentences"]:
         if len(sentence) > 0:
-            sentence_object = Triple(subject=request.json["intent"], predicate='hasNewSentence', object=sentence)
-            db.session.add(sentence_object)
+            # sentence_object = Triple(subject=request.json["intent"], predicate='hasNewSentence', object=sentence)
+            # db.session.add(sentence_object)
             new_sentence, entities, instances, tokens = decompose_sentence(sentence)
-            db.session.commit()
+            # db.session.commit()
             key_words_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasKeyword')
             key_words = []
             for aux in key_words_aux:
@@ -171,17 +177,48 @@ def extract_info():
                 key_words.append([word.object, pos.object, aux.object])
 
             result["sentences"].append(
-                {"sentence": new_sentence, "entities": entities, "instances": instances, "id": sentence_object.id,
+                {"sentence": new_sentence, "entities": entities, "instances": instances,
+                 # "id": sentence_object.id,
                  "tokens": tokens, "key_words": key_words})
             print(result)
     return result
 
 
-@app.route('/add/keyword', methods=['POST'])
-def new_key_words():
+@app.route('/add/data', methods=['POST'])
+def add_data():
     sentence = request.json["sentence"]
     if len(sentence) > 0:
-        sentence_object = Triple(subject=request.json["intent"], predicate='hasSentence', object=sentence)
+        sentence_aux = Triple.query.filter_by(subject=request.json["intent"], predicate='hasSentence').all()
+        sentence_aux = sentence_aux[len(sentence_aux) - 1]
+        number = int(re.findall(r'\d+', sentence_aux.object)[0]) + 1
+        sentence_predicate = request.json["intent"] + '-Sentence-' + str(number)
+        print(sentence_predicate)
+        sentence_object = Triple(subject=request.json["intent"], predicate="hasSentence", object=sentence_predicate)
+        new_sentence = Triple(subject=sentence_predicate, predicate='hasText', object=sentence)
+        db.session.add(new_sentence)
+        if request.json["correct"] is not True:
+            correct_sentence = Triple(subject=sentence_predicate, predicate='hasClassification', object="WRONG")
+
+        else:
+            correct_sentence = Triple(subject=sentence_predicate, predicate='hasClassification', object="OK")
+        db.session.add(correct_sentence)
+        if len(request.json["entities"]) > 0:
+            for entity in request.json["entities"]:
+                db.session.add(Triple(subject=sentence_predicate, predicate='hasEntity', object=entity))
+        if len(request.json["instances"]) > 0:
+            for instance in request.json["instances"]:
+                instance_aux = Triple.query.filter_by(subject=sentence_predicate, predicate='hasInstance').all()
+                if len(instance_aux) == 0:
+                    number = 1
+                else:
+                    instance_aux = instance_aux[len(instance_aux) - 1]
+                    number = int(re.findall(r'\d+', instance_aux.object)[1]) + 1
+
+                instance_subject = sentence_predicate + '-Instance-' + str(number)
+                db.session.add(Triple(subject=sentence_predicate, predicate='hasInstance', object=instance_subject))
+                db.session.add(Triple(subject=instance_subject, predicate='hasInstanceValue', object=instance[0]))
+                db.session.add(Triple(subject=instance_subject, predicate='hasInstanceType', object=instance[1]))
+
         db.session.add(sentence_object)
         # db.session.commit()
     if len(request.json["options"]) > 0:
@@ -200,6 +237,7 @@ def new_key_words():
                 db.session.add(Triple(subject=key_subject, predicate='hasPOS', object=option["pos"]))
                 db.session.add(Triple(subject=key_subject, predicate='refersTo', object=option["subject"]))
                 number += 1
+
     db.session.commit()
 
     return {"status": 200}

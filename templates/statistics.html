@@ -13,8 +13,11 @@
             </div>
             <div class="col-md-4">
                 <h3>Oraciones de prueba</h3>
-                <p>Total de oraciones: {{ result.sentences_count }}</p>
-                <p>Promedio de preguntas por oraciones: {{ result.sentences_prom }}</p>
+                <p>Total de oraciones: <strong>{{ result.sentences_count }}</strong></p>
+                <p>Promedio de preguntas por intencion: <strong>{{ result.sentences_prom }}</strong></p>
+                <p>Sentencias clasificadas de forma correcta: <strong>{{ result.correct }} </strong></p>
+                <p>Sentencias clasificadas de forma incorrecta: <strong>{{ result.incorrect }} </strong></p>
+                <p>Precision: <strong>{{ result.precision }} %</strong></p>
 
             </div>
             <div class="col-md-4">
