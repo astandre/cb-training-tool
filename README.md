@@ -24,10 +24,13 @@ DATA_BASE='mysql+pymysql://user:pass@localhost/db_name'
 Ejemplo:
 
 ``
-DATA_BASE='mysql+pymysql://root: @localhost/test'
+DATA_BASE='mysql+pymysql://root:@localhost/test'
 ``
 
 # Carga inicial de datos
 
 Para crear la base de datos y cargar los datos iniciales ejecutar el archivo *initial_data.py*
 
+# Guia de despliegue con wsgi_mod
+
+https://flask.palletsprojects.com/en/1.1.x/deploying/mod_wsgi/
