@@ -1,5 +1,5 @@
-from cbTraining import Triple
-from cbTraining import db
+from app import Triple
+from app import db
 
 db.create_all()
 
