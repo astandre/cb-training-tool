@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_heroku import Heroku
 from flask_sqlalchemy import SQLAlchemy
 from decouple import config
 from nlp_core import *
@@ -9,10 +10,11 @@ import re
 
 app = Flask(__name__)
 if config('DEBUG'):
-    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
-else:
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL_DEV')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
 # CORS(app)
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 
@@ -57,7 +59,7 @@ def statistics():
     result["triples_count"] = triples_count
     result["correct"] = correct_classification
     result["incorrect"] = incorrect_classification
-    result["precision"] = (correct_classification * 100) / sentences_count
+    result["precision"] = (correct_classification * 100) / (correct_classification + incorrect_classification)
 
     return render_template("statistics.html", result=result)
 
