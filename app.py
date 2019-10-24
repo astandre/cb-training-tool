@@ -9,11 +9,11 @@ import re
 # from flask_cors import CORS
 
 app = Flask(__name__)
-if config('DEBUG'):
-    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL_DEV')
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
-# CORS(app)
+# if config('DEBUG'):
+#     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL_DEV')
+# else:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 db.create_all()
