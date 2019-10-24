@@ -215,3 +215,4 @@ db.session.add(Triple(subject='ObtenerContenidos-Sentence-3', predicate='hasText
                       object="Qué temas se van a tratar en cada curso?"))
 
 db.session.commit()
+print("Done")
