@@ -37,7 +37,7 @@
             <div class="col-md-8">
                 <h2>Oraciones de prueba</h2>
                 <h3 style="visibility: hidden;" id="example-label"></h3>
-                <div id="oraciones" style="overflow-y: scroll; height: 500px">
+                <div id="oraciones" style="overflow-y: scroll; height: 450px">
                 </div>
                 <button type="button" class="btn btn-primary" id="new-sentence">Nueva oracion</button>
                 {#                <button type="button" class="btn btn-success" id="send">Evaluar</button>#}
@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-10">
                         <p>
-                            La oraciones de prueba son las diferentes maneras con las que tu puedes preguntar por una
+                            Las oraciones de prueba son las diferentes maneras con las que tu puedes preguntar por una
                             intencion. Mientras mas oraciones mejor!
                         </p>
                         <p>
@@ -57,7 +57,7 @@
                             <button type="button" class="btn btn-primary">Nueva oracion</button>
                             para añadir nuevas oraciones de prueba para continuar.
                             O ayudanos a
-                            <button type="button" class="btn btn-primary">Evaluar</button>
+                            <button type="button" class="btn btn-success">Evaluar</button>
                             una oracion existente.
                         </p>
                     </div>
@@ -70,10 +70,7 @@
                         <p>
                             Las maquinas no entienden de la misma manera que tu. Por eso necesitan tu ayuda para ser mas
                             inteligentes. Ingresa una oración que haga referencia a la intencion y usa el boton de
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                Evaluar
-                            </button>
+                           <button type="button" class="btn btn-success">Evaluar</button>
                             para descomponer la oracion.
                             Que estamos viendo? Mediante tecnias de procesamiendod de lenguaje natural hemos podido
                             encontrar una serie de cosas:
@@ -90,7 +87,7 @@
                         </ul>
                         <p>
                             Realiza los cambios que creas correcto y dale en
-                            <button type="button" class="btn btn-primary">Aceptar</button>
+                            <button type="button" class="btn btn-primary">Correcto</button>
                             si crees que la
                             informacion esta correcta
                             o dale en
@@ -123,6 +120,7 @@
                 <div class="modal-footer">
                     {#                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
                     {#                    <button type="button" class="btn btn-primary">Save changes</button>#}
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="close">Cerrar</button>
                     <button type="button" class="btn btn-primary sentence-control" id="accept" data-dismiss="modal">
                         Correcto
                     </button>
@@ -184,7 +182,7 @@
                     .append(` <div class="input-group mb-3 sentence_container">
                     <input type="text" class="form-control sentence"  placeholder="" aria-label=""
                            aria-describedby="basic-addon1" value="${text}" readonly="readonly" >
-<button type="button" class="btn btn-primary evaluate_button" data-toggle="modal" data-target="#exampleModal" onclick="evaluar(${size})">
+<button type="button" class="btn btn-success evaluate_button" data-toggle="modal" data-target="#exampleModal" onclick="evaluar(${size})">
         Evaluar
     </button>
                 </div>`);
@@ -194,7 +192,7 @@
                     <input type="text" class="form-control sentence"  placeholder="" aria-label=""
                            aria-describedby="basic-addon1" value="${text}">
  <div class="input-group-prepend">
-     <button type="button" class="btn btn-primary evaluate_button" data-toggle="modal" data-target="#exampleModal" onclick="evaluar(${size})">
+     <button type="button" class="btn btn-success evaluate_button" data-toggle="modal" data-target="#exampleModal" onclick="evaluar(${size})">
         Evaluar
     </button>
                     </div>
@@ -338,6 +336,8 @@
             $("#sentences").hide();
             $("#result-container").hide();
             $("#third-step").hide();
+            $("#accept").hide();
+            $("#incorrect").hide();
             $("#begin").css("padding-top", "17%")
                 .css("padding-bottom", "20%");
             makeAjaxCall("{{ url_for('get_intents') }}", "GET").then(function (respJson) {
@@ -389,7 +389,7 @@
             }
 
 
-            var key_words = "<ul>";
+            var key_words = "<div style=\"overflow-y: scroll; height: 450px\"><ul>";
             if (item["key_words"].length > 0) {
 
                 {#console.log(item["key_words"]);#}
@@ -411,23 +411,27 @@
                         key_words += "<li rel='" + item5[2] + "'>" + item5[0] + " [" + item5[1] + "]" + tokens + "</li> </select> </div>";
                     }
                 });
-                key_words += " </select></ul>";
+                key_words += " </select></ul> </div>";
             } else {
                 key_words = "<h5>No se ha encontrado palabras clave asociadas a la intencion </h5>";
             }
+            $("#accept").show();
+            $("#incorrect").show();
+            $("#close").hide();
+
 
             d = document.createElement('div');
             $(d).addClass("result")
             {#.append("<h2>Oracion N# " + index + " [" + current_intent + "]</h2>")#}
                 .append(result_text)
                 .append("<h3>Conceptos clave</h3>")
-                .append("<p> <img src=\"/static/images/four.png\" alt=\"\" style=\"width: 25; height: 25px\"> Ayudanos a determinar que conceptos claves son similares</p>")
+                .append("<p> <img src=\"/static/images/four.png\" alt=\"\" style=\"width: 25; height: 25px\"> Ayudanos a determinar que conceptos claves son similares. O que conceptos son importantes denotar dentro de nuestra intencion actual. <strong>Nota:</strong> Puedes usar la tecla ctrl para seleccionar varias opciones</p>")
                 .append(key_words)
                 .append("<h3>Entidades</h3>")
                 .append(entities)
                 .append("<h3>Instancias</h3>")
                 .append(instances)
-                .append("<p><img src=\"/static/images/seven.png\" alt=\"\" style=\"width: 25; height: 25px\"> La clasificacion es correcta?</p>")
+                .append("<p><img src=\"/static/images/seven.png\" alt=\"\" style=\"width: 25; height: 25px\"> Consideras que la clasificacion con respecto a entidades e instancias es correcta?</p>")
                 .appendTo($("#results").empty());
 
         }
