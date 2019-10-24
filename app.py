@@ -5,7 +5,7 @@ from decouple import config
 from nlp_core import *
 import random
 import re
-
+import initial_data
 # from flask_cors import CORS
 
 app = Flask(__name__)
@@ -16,6 +16,7 @@ else:
 # CORS(app)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
+db.create_all()
 
 
 # Defining model
@@ -126,6 +127,8 @@ def word_similarity_view():
 @app.route('/intents', methods=['GET'])
 def get_intents():
     intents = Triple.query.filter_by(predicate='rdf:type', object="Intent").all()
+    if len(intents) == 0:
+        load_data()
     options = []
     for intent in intents:
         # print(intent)
