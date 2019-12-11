@@ -1,5 +1,4 @@
 import spacy
-
 # Loading nlp model
 
 # nlp = spacy.load("es_core_news_md")

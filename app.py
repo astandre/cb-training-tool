@@ -1,16 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 from flask_heroku import Heroku
 from flask_sqlalchemy import SQLAlchemy
 from decouple import config
 from nlp_core import *
 import random
 import re
-
-# from flask_cors import CORS
+import csv
+from io import StringIO
 
 app = Flask(__name__)
 # if config('DEBUG'):
-#     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL_DEV')
+# app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL_DEV')
 # else:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -246,6 +246,24 @@ def add_data():
     db.session.commit()
 
     return {"status": 200}
+
+
+@app.route("/get/sentences", methods=['GET'])
+def get_data():
+    data = []
+    sentences = Triple.query.filter_by(predicate='hasSentence').all()
+    for sentence in sentences:
+        new_sentence = Triple.query.filter_by(subject=sentence.object, predicate="hasText").all()
+        for aux in new_sentence:
+            # data.append({"intent": sentence.subject, "sentence": aux.object})
+            data.append({sentence.subject, aux.object})
+    si = StringIO()
+    cw = csv.writer(si)
+    cw.writerows(data)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=intents.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 
 if __name__ == '__main__':

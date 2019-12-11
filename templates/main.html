@@ -70,7 +70,7 @@
                         <p>
                             Las maquinas no entienden de la misma manera que tu. Por eso necesitan tu ayuda para ser mas
                             inteligentes. Ingresa una oración que haga referencia a la intencion y usa el boton de
-                           <button type="button" class="btn btn-success">Evaluar</button>
+                            <button type="button" class="btn btn-success">Evaluar</button>
                             para descomponer la oracion.
                             Que estamos viendo? Mediante tecnias de procesamiendod de lenguaje natural hemos podido
                             encontrar una serie de cosas:
@@ -399,7 +399,7 @@
 
                     var tokens = "";
                     item["tokens"].forEach(function (item6, index2) {
-                        if (item6[1] !== "PUNCT" && item6[1] !== "ADP" && item6[1] !== "PRON" && item6[1] !== "DET" && item6[1] !== "SCONJ" && item6[1] !== "AUX" && item5[0].toLowerCase() !== item6[0].toLowerCase()) {
+                        if (item6[1] !== "PUNCT" && item6[1] !== "ADP" && item6[1] !== "PRON" && item6[1] !== "DET" && item6[1] !== "SCONJ" && item6[1] !== "AUX" && item5[0].toLowerCase() !== "SPACE" && item5[0].toLowerCase() !== item6[0].toLowerCase()) {
                             tokens += "<option>" + item6[0] + " [" + item6[1] + "]" + "</option>";
                         }
 

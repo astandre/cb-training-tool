@@ -18,7 +18,7 @@
                 <p>Sentencias clasificadas de forma correcta: <strong>{{ result.correct }} </strong></p>
                 <p>Sentencias clasificadas de forma incorrecta: <strong>{{ result.incorrect }} </strong></p>
                 <p>Precision: <strong>{{ result.precision }} %</strong></p>
-
+                <a class="btn btn-primary" href="{{ url_for('get_data') }}" role="button">Descargar</a>
             </div>
             <div class="col-md-4">
                 <h3>Tripletas</h3>
